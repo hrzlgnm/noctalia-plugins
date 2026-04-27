@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell.Io
+import QtQuick.Window 2.15
 import qs.Commons
 
 Item {
@@ -19,37 +20,10 @@ Item {
       pollingInterval = pluginApi.pluginSettings.pollingInterval || 30
   }
 
-  property string _jsonOutput: ""
+  property string _rawOutput: ""
   property bool _parseFull: false
 
-  Process {
-    id: proc
-    running: false
-    stdout: StdioCollector {
-      onStreamFinished: {
-        root._jsonOutput = this.data
-      }
-    }
-    stderr: StdioCollector { }
-  }
-
-  function callSimple(args) {
-    var cmd = JSON.stringify(["headsetcontrol"].concat(args))
-    Qt.createQmlObject(
-      'import Quickshell.Io; Process {\n' +
-      '  id: p\n' +
-      '  command: ' + cmd + ';\n' +
-      '  running: true;\n' +
-      '  stdout: StdioCollector { onStreamFinished: function(){ p.destroy() } }\n' +
-      '  stderr: StdioCollector { }\n' +
-      '}',
-      root, "hc_" + Date.now())
-  }
-
-  on_JsonOutputChanged: {
-    if (!_jsonOutput) return
-    var data = _jsonOutput
-    _jsonOutput = ""
+  function parseJsonOutput(data, full) {
     try {
       var json = JSON.parse(data)
       if (!json || !json.devices || json.devices.length === 0) {
@@ -63,8 +37,7 @@ Item {
       }
       root.isConnected = true
       var dev = json.devices[0]
-      if (_parseFull) {
-        _parseFull = false
+      if (full) {
         var caps = {}
         if (dev.capabilities) {
           for (var j = 0; j < dev.capabilities.length; j++)
@@ -80,20 +53,59 @@ Item {
       if (dev.chatmix !== undefined)
         root.chatmixLevel = dev.chatmix
     } catch(e) {
-      console.log("HeadsetControl: JSON parse error:", e)
+      console.log("HeadsetControl: parse error:", e)
     }
+  }
+
+  Process {
+    id: queryProc
+    running: false
+    stdout: StdioCollector {
+      id: outCollector
+      onStreamFinished: {
+        if (outCollector.text) {
+          root._rawOutput = outCollector.text
+        }
+      }
+    }
+    stderr: StdioCollector {
+      id: errCollector
+      onStreamFinished: {
+        if (errCollector.text) console.log("HC: stderr=" + errCollector.text)
+      }
+    }
+  }
+
+  Process {
+    id: simpleProc
+    running: false
+    stdout: StdioCollector { onStreamFinished: this.parent.running = false }
+    stderr: StdioCollector { }
   }
 
   function updateAll() {
     _parseFull = true
-    proc.command = ["headsetcontrol", "-o", "json"]
-    proc.running = true
+    queryProc.command = ["/usr/bin/headsetcontrol", "-o", "json"]
+    queryProc.running = true
   }
 
   function updateBatteryChatmix() {
     _parseFull = false
-    proc.command = ["headsetcontrol", "-o", "json"]
-    proc.running = true
+    queryProc.command = ["/usr/bin/headsetcontrol", "-o", "json"]
+    queryProc.running = true
+  }
+
+  function callSimple(args) {
+    if (simpleProc.running) return
+    simpleProc.command = ["/usr/bin/headsetcontrol"].concat(args)
+    simpleProc.running = true
+  }
+
+  on_RawOutputChanged: {
+    if (_rawOutput) {
+      parseJsonOutput(_rawOutput, _parseFull)
+      _rawOutput = ""
+    }
   }
 
   Timer {
@@ -118,7 +130,6 @@ Item {
     target: "plugin:headsetcontrol"
 
     function getBattery() {
-      root.updateBatteryChatmix()
       return JSON.stringify({ level: root.batteryLevel, status: root.batteryStatus, connected: root.isConnected })
     }
 
@@ -144,7 +155,6 @@ Item {
     }
 
     function getChatmix() {
-      root.updateBatteryChatmix()
       return JSON.stringify({level: root.chatmixLevel})
     }
 
@@ -210,8 +220,7 @@ Item {
 
     function togglePanel() {
       if (!root.pluginApi) return
-      var screen = qs.Services.UI.CurrentScreenDetector.currentScreen
-      root.pluginApi.togglePanel(screen)
+      root.pluginApi.withCurrentScreen(function(s) { root.pluginApi.togglePanel(s) })
     }
   }
 }
