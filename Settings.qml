@@ -39,7 +39,7 @@ Item {
 
     NCheckbox {
       id: showPctCheckbox
-      text: "Show battery percentage in bar"
+      label: "Show battery percentage in bar"
       checked: pluginApi && pluginApi.pluginSettings ? pluginApi.pluginSettings.barShowPercentage !== false : true
       onToggled: { if (pluginApi) { pluginApi.pluginSettings.barShowPercentage = checked; pluginApi.saveSettings() } }
     }
@@ -60,10 +60,10 @@ Item {
     NText { text: "Default EQ Preset (0-3)"; font.pixelSize: 13; color: "#ffffff" }
     RowLayout { spacing: 8
       property int currentPreset: pluginApi && pluginApi.pluginSettings ? pluginApi.pluginSettings.lastEqPreset || 0 : 0
-      NButton { text: "0"; highlighted: parent.currentPreset === 0; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 0; pluginApi.saveSettings() } } }
-      NButton { text: "1"; highlighted: parent.currentPreset === 1; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 1; pluginApi.saveSettings() } } }
-      NButton { text: "2"; highlighted: parent.currentPreset === 2; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 2; pluginApi.saveSettings() } } }
-      NButton { text: "3"; highlighted: parent.currentPreset === 3; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 3; pluginApi.saveSettings() } } }
+      NButton { text: "0"; backgroundColor: parent.currentPreset === 0 ? "#22c55e" : "#333"; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 0; pluginApi.saveSettings() } } }
+      NButton { text: "1"; backgroundColor: parent.currentPreset === 1 ? "#22c55e" : "#333"; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 1; pluginApi.saveSettings() } } }
+      NButton { text: "2"; backgroundColor: parent.currentPreset === 2 ? "#22c55e" : "#333"; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 2; pluginApi.saveSettings() } } }
+      NButton { text: "3"; backgroundColor: parent.currentPreset === 3 ? "#22c55e" : "#333"; onClicked: { if (pluginApi) { pluginApi.pluginSettings.lastEqPreset = 3; pluginApi.saveSettings() } } }
     }
 
     Rectangle { Layout.fillWidth: true; height: 1; color: "#333" }
@@ -74,8 +74,8 @@ Item {
         if (pluginApi && pluginApi.mainInstance) {
           var lvl = pluginApi.pluginSettings.lastSidetone || 64
           var p = Qt.createQmlObject(
-            'import Quickshell.Io; Process { command: ["headsetcontrol", "-s", "' + lvl + '"]; running: true; ' +
-            'function onFinished() { destroy(); } stdout: StdioCollector { } stderr: StdioCollector { } }',
+            'import Quickshell.Io; Process { command: ["/usr/bin/headsetcontrol", "-s", "' + lvl + '"]; running: true; ' +
+            'stdout: StdioCollector { onStreamFinished: function() { this.parent.destroy() } } stderr: StdioCollector { } }',
             root, "applySidetone")
         }
       }
