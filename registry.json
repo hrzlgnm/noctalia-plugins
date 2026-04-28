@@ -4,7 +4,7 @@
     {
       "id": "headsetcontrol",
       "name": "HeadsetControl",
-      "version": "1.0.9",
+      "version": "1.0.10",
       "official": false,
       "author": "hrzlgnm",
       "description": "Control wireless headsets via HeadsetControl (sidetone, battery, LED, equalizer, chatmix, and more)",
@@ -12,7 +12,7 @@
       "minNoctaliaVersion": "3.6.0",
       "license": "GPL-3.0",
       "tags": [],
-      "lastUpdated": "2026-04-28T21:50:44+02:00"
+      "lastUpdated": "2026-04-28T21:52:50+02:00"
     }
   ]
 }
