@@ -51,8 +51,8 @@ Item {
         color: root.isConnected ? Color.mOnSurface : Qt.rgba(1,1,1,0.4)
       }
 
-      NBattery {
-        visible: root.showPercentage
+       NBattery {
+         visible: root.showPercentage && root.isConnected
         percentage: Math.max(0, root.batteryLevel)
         charging: root.isCharging
         pluggedIn: root.isCharging
