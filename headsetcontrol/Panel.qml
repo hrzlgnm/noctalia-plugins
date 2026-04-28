@@ -122,7 +122,7 @@ Item {
     Rectangle { Layout.fillWidth: true; height: 1; color: Color.mOutline ?? "#49454f"; visible: root.isConnected && (root.capabilities["CAP_INACTIVE_TIME"] ?? false) }
     NText { text: "Auto-Off Timer (min)"; visible: root.isConnected && (root.capabilities["CAP_INACTIVE_TIME"] ?? false); font.pixelSize: 13; color: Color.mOnSurface; font.weight: Font.Bold }
     RowLayout { visible: root.isConnected && (root.capabilities["CAP_INACTIVE_TIME"] ?? false); spacing: 6
-      NSlider { id: inactiveSlider; Layout.fillWidth: true; from: 0; to: 120; stepSize: 1; value: 30
+      NSlider { id: inactiveSlider; Layout.fillWidth: true; from: 0; to: 120; stepSize: 15; value: 30
         onMoved: root.sendCommand(["-i", String(value)]) }
       NText { text: Math.round(inactiveSlider.value); font.pixelSize: 11; color: Color.mOnSurfaceVariant; Layout.minimumWidth: 30; horizontalAlignment: Text.AlignRight }
     }
