@@ -25,7 +25,6 @@ Item {
   property bool _parseFull: false
 
   function parseJsonOutput(data, full) {
-    Logger.i("HC Main: parseJsonOutput called, full=" + full + ", data length=" + (data ? data.length : 0))
     try {
       var json = JSON.parse(data)
       if (!json || !json.devices || json.devices.length === 0) {
@@ -35,7 +34,6 @@ Item {
         root.batteryLevel = -1
         root.batteryStatus = "BATTERY_UNAVAILABLE"
         root.chatmixLevel = -1
-        Logger.i("HC Main: No device found or empty response")
         return
       }
       var dev = json.devices[0]
@@ -58,7 +56,6 @@ Item {
         }
         root.capabilities = caps
         root.capabilitiesLoaded = true
-        Logger.i("HC Main: capabilities parsed: " + JSON.stringify(caps))
       }
       if (dev.battery) {
         root.batteryLevel = dev.battery.level >= 0 ? dev.battery.level : -1
@@ -78,7 +75,6 @@ Item {
       id: outCollector
       onStreamFinished: {
         if (outCollector.text) {
-          Logger.i("HC Main: stdout received, length=" + outCollector.text.length)
           root._rawOutput = outCollector.text
         }
       }
@@ -88,9 +84,6 @@ Item {
       onStreamFinished: {
         if (errCollector.text) Logger.w("HC: stderr=" + errCollector.text)
       }
-    }
-    onRunningChanged: {
-      if (!running) Logger.i("HC Main: process finished")
     }
   }
 

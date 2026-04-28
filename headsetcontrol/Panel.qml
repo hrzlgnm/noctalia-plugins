@@ -15,19 +15,11 @@ Item {
   readonly property bool capabilitiesLoaded: mainInstance ? mainInstance.capabilitiesLoaded : false
   readonly property bool isConnected: mainInstance ? mainInstance.isConnected : false
 
-  onPluginApiChanged: {
-    Logger.i("HC Panel: pluginApi changed, exists=" + (pluginApi != null))
-  }
   onMainInstanceChanged: {
-    Logger.i("HC Panel: mainInstance set, exists=" + (mainInstance != null) + ", capabilitiesLoaded=" + (mainInstance ? mainInstance.capabilitiesLoaded : false))
     if (mainInstance) {
       // Trigger a full update when panel opens to ensure capabilities are fresh
       mainInstance.updateAll()
     }
-  }
-  onCapabilitiesLoadedChanged: {
-    Logger.i("HC Panel: capabilitiesLoaded changed to " + capabilitiesLoaded)
-    Logger.i("HC Panel: capabilities=" + JSON.stringify(capabilities))
   }
   readonly property int batteryLevel: mainInstance ? mainInstance.batteryLevel : -1
   readonly property string batteryStatus: mainInstance ? mainInstance.batteryStatus : "BATTERY_UNAVAILABLE"
