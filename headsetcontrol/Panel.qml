@@ -72,15 +72,6 @@ Item {
     Rectangle { Layout.fillWidth: true; height: 1; color: Color.mOutline ?? "#49454f" }
 
     NText {
-      text: "HeadsetControl"
-      font.pixelSize: 16
-      font.weight: Font.Bold
-      color: Color.mOnSurface
-    }
-
-    Rectangle { Layout.fillWidth: true; height: 1; color: Color.mOutline ?? "#49454f" }
-
-    NText {
       text: root.isConnected ? "Headset Connected" : "No Headset Detected"
       font.pixelSize: 13
       color: root.isConnected ? Color.mPrimary : Color.mOnSurfaceVariant
