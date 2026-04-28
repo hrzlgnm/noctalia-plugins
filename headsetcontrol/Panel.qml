@@ -45,7 +45,7 @@ Item {
   Process {
     id: panelCmdProc
     running: false
-    stdout: StdioCollector { onStreamFinished: this.parent.running = false }
+    stdout: StdioCollector { onStreamFinished: panelCmdProc.running = false }
     stderr: StdioCollector { onStreamFinished: if (text) Logger.w("HC panel: " + text) }
   }
 
@@ -149,7 +149,7 @@ Item {
     Rectangle { Layout.fillWidth: true; height: 1; color: Color.mOutline ?? "#49454f"; visible: root.isConnected && (root.capabilities["CAP_MICROPHONE_MUTE_LED_BRIGHTNESS"] ?? false) }
     NText { text: "Microphone LED"; visible: root.isConnected && (root.capabilities["CAP_MICROPHONE_MUTE_LED_BRIGHTNESS"] ?? false); font.pixelSize: 13; color: Color.mOnSurface; font.weight: Font.Bold }
     RowLayout { visible: root.isConnected && (root.capabilities["CAP_MICROPHONE_MUTE_LED_BRIGHTNESS"] ?? false); spacing: 6
-      NSlider { id: micLedSlider; Layout.fillWidth: true; from: 0; to: 100; stepSize: 1; value: 50
+      NSlider { id: micLedSlider; Layout.fillWidth: true; from: 0; to: 3; stepSize: 1; value: 1
         onMoved: root.sendCommand(["--microphone-mute-led-brightness", String(value)]) }
       NText { text: Math.round(micLedSlider.value); font.pixelSize: 11; color: Color.mOnSurfaceVariant; Layout.minimumWidth: 30; horizontalAlignment: Text.AlignRight }
     }
