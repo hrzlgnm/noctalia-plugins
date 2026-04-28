@@ -140,10 +140,6 @@ Item {
   IpcHandler {
     target: "plugin:headsetcontrol"
 
-    function getBattery() {
-      return JSON.stringify({ level: root.batteryLevel, status: root.batteryStatus, connected: root.isConnected })
-    }
-
     function setSidetone(level: string) {
       var lvl = parseInt(level)
       if (isNaN(lvl) || lvl < 0 || lvl > 128) return JSON.stringify({error: "Level must be 0-128"})
@@ -163,10 +159,6 @@ Item {
       if (isNaN(min) || min < 0) return JSON.stringify({error: "Minutes must be >= 0"})
       root.callSimple(["-i", String(min)])
       return JSON.stringify({success: true, minutes: min})
-    }
-
-    function getChatmix() {
-      return JSON.stringify({level: root.chatmixLevel})
     }
 
     function setVoicePrompt(on: string) {
@@ -218,11 +210,6 @@ Item {
       var t = type || "0"
       root.callSimple(["-n", t])
       return JSON.stringify({success: true, type: t})
-    }
-
-    function getCapabilities() {
-      root.updateAll()
-      return JSON.stringify(root.capabilities)
     }
 
     function checkConnected() {

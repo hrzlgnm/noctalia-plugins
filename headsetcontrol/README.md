@@ -51,9 +51,6 @@ Then enable it in Noctalia Settings > Plugins.
 ## IPC Commands
 
 ```bash
-# Get battery status
-qs -c noctalia-shell ipc call plugin:headsetcontrol getBattery
-
 # Set sidetone level (0-128)
 qs -c noctalia-shell ipc call plugin:headsetcontrol setSidetone 64
 
@@ -62,9 +59,6 @@ qs -c noctalia-shell ipc call plugin:headsetcontrol setLights 0
 
 # Set inactive/auto-off timer (minutes, 0=disabled)
 qs -c noctalia-shell ipc call plugin:headsetcontrol setInactiveTime 30
-
-# Get chatmix level
-qs -c noctalia-shell ipc call plugin:headsetcontrol getChatmix
 
 # Set voice prompt (0=off, 1=on)
 qs -c noctalia-shell ipc call plugin:headsetcontrol setVoicePrompt 0
@@ -89,9 +83,6 @@ qs -c noctalia-shell ipc call plugin:headsetcontrol setBtCallVolume 70
 
 # Send notification sound (0 or 1)
 qs -c noctalia-shell ipc call plugin:headsetcontrol sendNotification 0
-
-# Check capabilities
-qs -c noctalia-shell ipc call plugin:headsetcontrol getCapabilities
 
 # Check if headset is connected
 qs -c noctalia-shell ipc call plugin:headsetcontrol checkConnected
