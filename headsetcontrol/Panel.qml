@@ -12,7 +12,23 @@ Item {
 
   readonly property var mainInstance: pluginApi ? pluginApi.mainInstance : null
   readonly property var capabilities: mainInstance ? mainInstance.capabilities : ({})
+  readonly property bool capabilitiesLoaded: mainInstance ? mainInstance.capabilitiesLoaded : false
   readonly property bool isConnected: mainInstance ? mainInstance.isConnected : false
+
+  onPluginApiChanged: {
+    Logger.i("HC Panel: pluginApi changed, exists=" + (pluginApi != null))
+  }
+  onMainInstanceChanged: {
+    Logger.i("HC Panel: mainInstance set, exists=" + (mainInstance != null) + ", capabilitiesLoaded=" + (mainInstance ? mainInstance.capabilitiesLoaded : false))
+    if (mainInstance) {
+      // Trigger a full update when panel opens to ensure capabilities are fresh
+      mainInstance.updateAll()
+    }
+  }
+  onCapabilitiesLoadedChanged: {
+    Logger.i("HC Panel: capabilitiesLoaded changed to " + capabilitiesLoaded)
+    Logger.i("HC Panel: capabilities=" + JSON.stringify(capabilities))
+  }
   readonly property int batteryLevel: mainInstance ? mainInstance.batteryLevel : -1
   readonly property string batteryStatus: mainInstance ? mainInstance.batteryStatus : "BATTERY_UNAVAILABLE"
   readonly property bool isCharging: batteryStatus === "BATTERY_CHARGING"
@@ -178,13 +194,13 @@ Item {
     }
 
     // Bluetooth
-    Rectangle { Layout.fillWidth: true; height: 1; color: Color.mOutline ?? "#49454f"; visible: root.isConnected }
-    NText { text: "Bluetooth"; visible: root.isConnected; font.pixelSize: 13; color: Color.mOnSurface; font.weight: Font.Bold }
-    RowLayout { visible: root.isConnected; spacing: 8
+    Rectangle { Layout.fillWidth: true; height: 1; color: Color.mOutline ?? "#49454f"; visible: root.isConnected && (root.capabilities["CAP_BT_WHEN_POWERED_ON"] ?? false) }
+    NText { text: "Bluetooth"; visible: root.isConnected && (root.capabilities["CAP_BT_WHEN_POWERED_ON"] ?? false); font.pixelSize: 13; color: Color.mOnSurface; font.weight: Font.Bold }
+    RowLayout { visible: root.isConnected && (root.capabilities["CAP_BT_WHEN_POWERED_ON"] ?? false); spacing: 8
       NButton { text: "Power On: On"; onClicked: root.sendCommand(["--bt-when-powered-on", "1"]) }
       NButton { text: "Power On: Off"; onClicked: root.sendCommand(["--bt-when-powered-on", "0"]) }
     }
-    RowLayout { visible: root.isConnected; spacing: 6
+    RowLayout { visible: root.isConnected && (root.capabilities["CAP_BT_CALL_VOLUME"] ?? false); spacing: 6
       NText { text: "Call Volume"; font.pixelSize: 11; color: Color.mOnSurfaceVariant }
       NSlider { id: btVolSlider; Layout.fillWidth: true; from: 0; to: 100; stepSize: 1; value: 50
         onMoved: root.sendCommand(["--bt-call-volume", String(value)]) }
