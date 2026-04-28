@@ -7,7 +7,7 @@
   "license": "GPL-3.0",
   "repository": "https://github.com/hrzlgnm/noctalia-headsetcontrol",
   "description": "Control wireless headsets via HeadsetControl (sidetone, battery, LED, equalizer, chatmix, and more)",
-  "tags": ["Bar", "Panel"],
+  "tags": [],
   "entryPoints": {
     "main": "Main.qml",
     "barWidget": "BarWidget.qml",

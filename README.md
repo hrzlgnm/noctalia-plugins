@@ -13,3 +13,7 @@ See each plugin's directory for installation instructions.
 ## Plugin Development
 
 See [AGENTS.md](AGENTS.md) for guidelines on contributing plugins.
+
+## Reference
+
+Original plugin repository: [noctalia-dev/noctalia-plugins](https://github.com/noctalia-dev/noctalia-plugins)
