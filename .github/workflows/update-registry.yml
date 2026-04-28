@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: ${{ github.repository == 'hrzlgnm/noctalia-headsetcontrol' }}
+    if: ${{ github.repository == 'hrzlgnm/noctalia-plugins' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
