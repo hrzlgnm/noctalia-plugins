@@ -343,6 +343,11 @@ These are the most frequent issues in AI-generated plugin PRs:
 - [ ] Verify settings persist across restarts
 - [ ] Check edge cases: empty states, missing data, rapid interactions
 
+## Workflow Rules
+
+- All changes to the repository **must go through a pull request** — never commit or push directly to the `main` branch.
+- Before creating a new branch, always pull the latest changes from `main` to avoid conflicts: `git checkout main && git pull origin main`.
+
 ## PR Checklist
 
 - [ ] Plugin tested with Noctalia Shell (`qs -c noctalia-shell`)
