@@ -37,4 +37,4 @@ See [AGENTS.md](AGENTS.md) for guidelines on contributing plugins.
 
 ## Reference
 
-Original plugin repository: [noctalia-dev/noctalia-plugins](https://github.com/noctalia-dev/noctalia-plugins)
+Official noctalia-plugins repository: [noctalia-dev/noctalia-plugins](https://github.com/noctalia-dev/noctalia-plugins)
