@@ -22,6 +22,15 @@ To use plugins from this repository:
 5. Plugins will now appear in your **Available** tab
 6. Click **Install** on any plugin to enable it
 
+## Registry Automation
+
+The plugin registry is automatically maintained using GitHub Actions:
+
+- **Automatic Updates**: Registry updates when manifest.json files are modified
+- **PR Validation**: Pull requests show if registry will be updated
+
+See [.github/workflows/README.md](.github/workflows/README.md) for technical details.
+
 ## Plugin Development
 
 See [AGENTS.md](AGENTS.md) for guidelines on contributing plugins.

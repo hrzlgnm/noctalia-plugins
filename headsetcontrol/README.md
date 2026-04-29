@@ -42,8 +42,6 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 
 ## Installation
 
-### Option 1: Add Repository (Recommended)
-
 1. Open **Noctalia Settings** → **Plugins** → **Sources**
 2. Click **Add custom repository**
 3. Enter a repository name (e.g., "HeadsetControl Plugin")
@@ -53,16 +51,6 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
    ```
 5. The HeadsetControl plugin will now appear in your **Available** tab
 6. Click **Install** to enable it
-
-### Option 2: Manual Symlink
-
-Create a symlink to this plugin in your Noctalia plugins directory:
-
-```bash
-ln -s $(pwd) ~/.config/noctalia/plugins/headsetcontrol
-```
-
-Then enable it in Noctalia Settings > Plugins.
 
 ## IPC Commands
 
