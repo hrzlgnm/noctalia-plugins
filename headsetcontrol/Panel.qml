@@ -14,6 +14,7 @@ Item {
   readonly property var capabilities: mainInstance ? mainInstance.capabilities : ({})
   readonly property bool capabilitiesLoaded: mainInstance ? mainInstance.capabilitiesLoaded : false
   readonly property bool isConnected: mainInstance ? mainInstance.isConnected : false
+  readonly property string deviceName: mainInstance ? mainInstance.deviceName : ""
 
   onMainInstanceChanged: {
     if (mainInstance) {
@@ -67,6 +68,13 @@ Item {
       text: root.isConnected ? "Headset Connected" : "No Headset Detected"
       font.pixelSize: 13
       color: root.isConnected ? Color.mPrimary : Color.mOnSurfaceVariant
+    }
+
+    NText {
+      visible: root.isConnected && root.deviceName !== ""
+      text: root.deviceName
+      font.pixelSize: 11
+      color: Color.mOnSurfaceVariant
     }
 
     RowLayout {

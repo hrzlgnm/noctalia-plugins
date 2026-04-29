@@ -11,6 +11,7 @@ Item {
   property string batteryStatus: "BATTERY_UNAVAILABLE"
   property bool isConnected: false
   readonly property bool isCharging: batteryStatus === "BATTERY_CHARGING"
+  property string deviceName: ""
   property int chatmixLevel: -1
   property var capabilities: ({})
   property bool capabilitiesLoaded: false
@@ -34,6 +35,7 @@ Item {
         root.batteryLevel = -1
         root.batteryStatus = "BATTERY_UNAVAILABLE"
         root.chatmixLevel = -1
+        root.deviceName = ""
         return
       }
       var dev = json.devices[0]
@@ -45,10 +47,12 @@ Item {
         root.batteryLevel = -1
         root.batteryStatus = "BATTERY_UNAVAILABLE"
         root.chatmixLevel = -1
+        root.deviceName = ""
         return
       }
       root.isConnected = true
-      if (full) {
+        root.deviceName = dev.device_name || ""
+        if (full) {
         var caps = {}
         if (dev.capabilities) {
           for (var j = 0; j < dev.capabilities.length; j++)
