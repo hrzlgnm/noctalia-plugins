@@ -1,6 +1,12 @@
-# Noctalia Plugins
+> ## **Development Discontinued**
+>
+> **Noctalia is moving away from Quickshell**, so this repository is no longer actively maintained.
+>
+> Existing plugins remain available but are unlikely to receive updates.
 
-> **Development discontinued** — Noctalia is moving away from Quickshell, so this repository is no longer actively maintained. Existing plugins remain available but are unlikely to receive updates.
+---
+
+# Noctalia Plugins
 
 A collection of plugins for [Noctalia Shell](https://github.com/noctalia-dev/noctalia-shell).
 
