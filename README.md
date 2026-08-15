@@ -1,3 +1,4 @@
+> [!WARNING]
 > ## **Development Discontinued**
 >
 > **Noctalia is moving away from Quickshell**, so this repository is no longer actively maintained.
